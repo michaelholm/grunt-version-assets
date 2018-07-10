@@ -1,6 +1,6 @@
 # grunt-assets-version
 
-## Originaly forked from basti1302/grunt-version-assets (https://github.com/basti1302/grunt-version-assets)
+## Originally forked from basti1302/grunt-version-assets (https://github.com/basti1302/grunt-version-assets)
 
 This Grunt plug-in renames static assets (JavaScript files, CSS, ...) and at the same time updates references to these assets in other files (for example, HTML files). This enables you to deliver static assets with HTTP caching headers telling the browser to cache them forever, so the file will only be downloaded once. If the file changes, its file name changes and the new version will be downloaded, so users never see stale JavaScript or CSS files.
 

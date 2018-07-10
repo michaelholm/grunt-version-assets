@@ -1,8 +1,8 @@
 /*
- * grunt-version-assets
- * https://github.com/basti1302/grunt-version-assets
+ * grunt-assets-version
+ * https://github.com/basti1302/grunt-assets-version
  *
- * Copyright (c) 2014 Bastian Krol
+ * Copyright (c) 2018 Michael Holm
  * Licensed under the MIT license.
  */
 
@@ -11,9 +11,6 @@
 var Version = require("node-version-assets");
 
 module.exports = function(grunt) {
-
-  // Please see the Grunt documentation for more information regarding task
-  // creation: http://gruntjs.com/creating-tasks
 
   grunt.registerMultiTask(
   'versioning',
@@ -25,6 +22,7 @@ module.exports = function(grunt) {
     var options = this.options({
       grepFiles: [],
       keepOriginal: true,
+      newVersion: null
     });
 
     Object.keys(options).forEach(function(key) {
@@ -33,7 +31,7 @@ module.exports = function(grunt) {
 
     var grepFilesExpanded = grunt.file.expandMapping(options.grepFiles);
 
-    grunt.log.debug('**GREPFILES**');
+    grunt.log.debug('**OPTIONS.GREPFILES**');
     var grepFiles = [];
     grepFilesExpanded.forEach(function(file) {
       grepFiles.push(file.src[0]);
@@ -41,20 +39,25 @@ module.exports = function(grunt) {
     });
 
     // Iterate over all specified file groups.
-    grunt.log.debug('**ASSETS**');
+    grunt.log.debug('**OPTIONS.ASSETS**');
     var assets = [];
     this.filesSrc.forEach(function(file) {
       assets.push(file);
       grunt.log.debug(file);
     });
 
-    var versioner = new Version({
+    if (options.newVersion && options.newVersion.length > 0) {
+      grunt.log.debug('**OPTIONS.NEWVERSION**', options.newVersion);
+    }
+
+    var assetsVersioner = new Version({
       assets: assets,
       grepFiles: grepFiles,
       keepOriginal: options.keepOriginal,
+      newVersion: options.newVersion,
     });
 
-    versioner.run(function(err) {
+    assetsVersioner.run(function(err) {
       if (err) {
         return done(err);
       } else {
